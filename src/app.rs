@@ -243,20 +243,24 @@ impl AppWindow {
 
         let max_freq_button = Button::with_label("🚀 Maximum Frequency (All Cores)");
         max_freq_button.add_css_class("suggested-action");
-        max_freq_button.set_tooltip_text(Some("Set all cores to maximum hardware frequency (e.g., 4.9 GHz)"));
+        max_freq_button.set_tooltip_text(Some("Automatically detect and set to your CPU's maximum hardware frequency"));
         
         let cpu_manager_clone = self.cpu_manager.clone();
         max_freq_button.connect_clicked(move |btn| {
             let cpu_manager = cpu_manager_clone.lock().unwrap();
             
-            // Get hardware maximum frequency
+            // DYNAMICALLY READ hardware maximum frequency from CPU
             match cpu_manager.get_hardware_max_freq(0) {
                 Ok(max_freq) => {
-                    log::info!("Setting all cores to maximum frequency: {} MHz", max_freq);
+                    log::info!("Detected hardware maximum frequency: {} MHz (reading from /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq)", max_freq);
+                    log::info!("Setting all {} cores to maximum frequency: {} MHz", cpu_manager.core_count(), max_freq);
                     
-                    // First, reset limits to hardware defaults
+                    // Get hardware minimum
                     let hw_min = match cpu_manager.get_hardware_min_freq(0) {
-                        Ok(min) => min,
+                        Ok(min) => {
+                            log::debug!("Hardware minimum frequency: {} MHz", min);
+                            min
+                        },
                         Err(e) => {
                             log::error!("Failed to get hardware min freq: {}", e);
                             btn.set_label("✗ Error reading min freq");
@@ -269,7 +273,8 @@ impl AppWindow {
                         }
                     };
 
-                    // Reset all limits to hardware defaults first
+                    // Reset all limits to full hardware range (removes any caps)
+                    log::info!("Resetting frequency range to hardware limits: {}-{} MHz", hw_min, max_freq);
                     for core in 0..cpu_manager.core_count() {
                         if let Err(e) = cpu_manager.set_scaling_min_freq(core, hw_min) {
                             log::warn!("Failed to reset min freq for core {}: {}", core, e);
@@ -279,7 +284,7 @@ impl AppWindow {
                         }
                     }
 
-                    // Set governor to performance for maximum speed
+                    // Set performance governor for best speed
                     if let Err(e) = cpu_manager.set_governor_all("performance") {
                         log::warn!("Failed to set performance governor: {}", e);
                     }
@@ -289,10 +294,10 @@ impl AppWindow {
                         log::warn!("Failed to enable turbo: {}", e);
                     }
 
-                    btn.set_label(&format!("✓ Max Freq: {} MHz", max_freq));
-                    log::info!("Successfully configured for maximum frequency: {} MHz", max_freq);
+                    btn.set_label(&format!("✓ Set to {} MHz", max_freq));
+                    log::info!("Successfully configured all cores for maximum frequency: {} MHz", max_freq);
                     
-                    // Reset label after 3 seconds
+                    // Reset button label after 3 seconds
                     let btn_clone = btn.clone();
                     glib::timeout_add_seconds_local(3, move || {
                         btn_clone.set_label("🚀 Maximum Frequency (All Cores)");
@@ -300,8 +305,8 @@ impl AppWindow {
                     });
                 }
                 Err(e) => {
-                    log::error!("Failed to get hardware max frequency: {}", e);
-                    btn.set_label("✗ Error reading max freq");
+                    log::error!("Failed to read hardware max frequency from CPU: {}", e);
+                    btn.set_label("✗ Cannot read CPU max freq");
                     
                     let btn_clone = btn.clone();
                     glib::timeout_add_seconds_local(3, move || {
