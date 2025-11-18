@@ -2,12 +2,15 @@
 
 > Advanced CPU frequency and power management tool for Linux with GTK4 interface / Rust Backend
 
+
+
 [![License: GPL v3](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE)
 [![Platform: Linux](https://img.shields.io/badge/platform-Linux-lightgrey.svg)]()
 [![Rust](https://img.shields.io/badge/language-Rust-orange.svg)]()
 [![Shell](https://img.shields.io/badge/language-Shell-green.svg)]()
 [![CSS](https://img.shields.io/badge/language-CSS-blue.svg)]()
 
+[Quick Start Guide](https://github.com/globalcve/cpu-power-manager/blob/main/QUICK_START.md)
 
 
 ## Features
