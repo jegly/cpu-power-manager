@@ -1,7 +1,6 @@
 # CPU Power Manager in BETA !
 
-> Advanced CPU frequency and power management tool for Linux with GTK4 interface / Rust Backend
-
+> CPU Power Manager is a modern Linux GUI utility for monitoring and controlling CPU performance, power usage, and thermal behavior. Built with a Rust backend and a sleek GTK4 interface, it provides real‑time insights into frequency scaling, governors, and turbo boost, while offering easy profile switching (Performance, Balanced, Power Saver, Silent). Designed for both desktop and laptop users, it combines safety features like thermal protection and configuration validation with a user‑friendly dashboard and command‑line tools, making advanced CPU power management accessible and reliable.
 
 
 [![License: GPL v3](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE)
