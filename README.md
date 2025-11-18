@@ -1,4 +1,4 @@
-# CPU Power Manager
+# CPU Power Manager in BETA !
 
 > Advanced CPU frequency and power management tool for Linux with GTK4 interface and Dracula theme
 
