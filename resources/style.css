@@ -28,6 +28,7 @@ headerbar {
 
 headerbar button {
     color: @dracula_fg;
+    background-color: transparent;
 }
 
 headerbar button:hover {
@@ -49,7 +50,7 @@ headerbar button:hover {
 }
 
 box {
-    background-color: @dracula_bg;
+    background-color: transparent;
 }
 
 /* Labels */
@@ -80,49 +81,69 @@ label.critical {
     color: @dracula_red;
 }
 
-/* Buttons - BLACK WITH WHITE TEXT */
+/* BUTTONS - FORCE BLACK WITH WHITE TEXT */
+/* Using more specific selectors to override GTK defaults */
+window button,
+box button,
+.card button,
 button {
-    background-color: #000000;          /* Pure black background */
-    color: #ffffff;                     /* Pure white text */
-    border: 2px solid @dracula_purple;  /* Purple border */
+    background-color: #000000 !important;          /* Pure black - FORCE */
+    background-image: none !important;             /* Remove gradients */
+    color: #ffffff !important;                     /* Pure white text - FORCE */
+    border: 2px solid @dracula_purple !important;  /* Purple border */
     border-radius: 6px;
     padding: 8px 16px;
     min-height: 36px;
-    font-weight: bold;                  /* Bold text */
-    font-size: 1.05em;                  /* Slightly larger text */
+    font-weight: bold;
+    font-size: 1.05em;
+    box-shadow: none !important;                   /* Remove shadows */
 }
 
+window button:hover,
+box button:hover,
+.card button:hover,
 button:hover {
-    background-color: #1a1a1a;          /* Slightly lighter black on hover */
-    border-color: @dracula_cyan;        /* Cyan border on hover */
-    color: @dracula_cyan;               /* Cyan text on hover */
+    background-color: #1a1a1a !important;
+    background-image: none !important;
+    border-color: @dracula_cyan !important;
+    color: @dracula_cyan !important;
+    box-shadow: none !important;
 }
 
+window button:active,
+box button:active,
+.card button:active,
 button:active {
-    background-color: #0a0a0a;          /* Darker black when pressed */
-    border-color: @dracula_green;
+    background-color: #0a0a0a !important;
+    background-image: none !important;
+    border-color: @dracula_green !important;
+    box-shadow: none !important;
 }
 
+/* Green button for suggested actions */
 button.suggested-action {
-    background-color: @dracula_green;   /* Green for "Maximum Frequency" button */
-    color: #000000;                     /* Black text on green */
-    border: none;
+    background-color: @dracula_green !important;
+    background-image: none !important;
+    color: #000000 !important;
+    border: none !important;
     font-weight: bold;
 }
 
 button.suggested-action:hover {
-    background-color: alpha(@dracula_green, 0.8);
-    color: #000000;
+    background-color: alpha(@dracula_green, 0.8) !important;
+    background-image: none !important;
+    color: #000000 !important;
 }
 
 button.destructive-action {
-    background-color: @dracula_red;
-    color: #ffffff;
-    border: none;
+    background-color: @dracula_red !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    border: none !important;
 }
 
 button.destructive-action:hover {
-    background-color: alpha(@dracula_red, 0.8);
+    background-color: alpha(@dracula_red, 0.8) !important;
 }
 
 /* Entry fields */
@@ -182,7 +203,7 @@ switch slider {
     border-radius: 50%;
 }
 
-/* Dropdown/ComboBox */
+/* Dropdown/ComboBox - Keep normal styling */
 combobox {
     background-color: @dracula_current_line;
     color: @dracula_fg;
@@ -191,9 +212,14 @@ combobox {
 }
 
 combobox button {
-    border: none;
-    background-color: @dracula_current_line;  /* Keep dropdown button normal */
-    color: @dracula_fg;
+    border: none !important;
+    background-color: @dracula_current_line !important;
+    background-image: none !important;
+    color: @dracula_fg !important;
+}
+
+combobox button:hover {
+    background-color: @dracula_comment !important;
 }
 
 /* Menus */
