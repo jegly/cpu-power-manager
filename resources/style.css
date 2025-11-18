@@ -1,434 +1,194 @@
-/* Dracula Theme for CPU Power Manager */
 
-/* Color definitions */
-@define-color dracula_bg #282a36;
-@define-color dracula_current_line #44475a;
-@define-color dracula_fg #f8f8f2;
-@define-color dracula_comment #6272a4;
-@define-color dracula_cyan #8be9fd;
-@define-color dracula_green #50fa7b;
-@define-color dracula_orange #ffb86c;
-@define-color dracula_pink #ff79c6;
-@define-color dracula_purple #bd93f9;
-@define-color dracula_red #ff5555;
-@define-color dracula_yellow #f1fa8c;
-
-/* Window background */
-window {
-    background-color: @dracula_bg;
-    color: @dracula_fg;
+:root {
+  --dracula-background: #282a36;
+  --dracula-current-line: #44475a;
+  --dracula-selection: #44475a;
+  --dracula-foreground: #f8f8f2;
+  --dracula-comment: #6272a4;
+  --dracula-cyan: #8be9fd;
+  --dracula-green: #50fa7b;
+  --dracula-orange: #ffb86c;
+  --dracula-pink: #ff79c6;
+  --dracula-purple: #bd93f9;
+  --dracula-red: #ff5555;
+  --dracula-yellow: #f1fa8c;
 }
 
-/* Header bar */
-headerbar {
-    background-color: @dracula_current_line;
-    color: @dracula_fg;
-    border-bottom: 1px solid @dracula_comment;
+.profile-button,
+button.profile-button,
+.quick-profile-button {
+  background-color: var(--dracula-current-line);
+  color: var(--dracula-foreground);
+  border: 1px solid var(--dracula-comment);
+  border-radius: 6px;
+  padding: 8px 16px;
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
 
-headerbar button {
-    color: @dracula_fg;
-    background-color: transparent;
+.profile-button:hover,
+button.profile-button:hover,
+.quick-profile-button:hover {
+  background-color: var(--dracula-selection);
+  border-color: var(--dracula-purple);
+  box-shadow: 0 2px 4px rgba(189, 147, 249, 0.3);
 }
 
-headerbar button:hover {
-    background-color: @dracula_bg;
+.profile-button:active,
+button.profile-button:active,
+.quick-profile-button:active,
+.profile-button.active,
+button.profile-button.active {
+  background-color: var(--dracula-purple);
+  color: var(--dracula-background);
+  border-color: var(--dracula-purple);
 }
 
-/* Main content */
-.content-view {
-    background-color: @dracula_bg;
-    color: @dracula_fg;
+.profile-button.performance {
+  background-color: var(--dracula-red);
+  border-color: var(--dracula-red);
+  color: var(--dracula-foreground);
 }
 
-/* Cards and boxes */
-.card {
-    background-color: @dracula_current_line;
-    border-radius: 8px;
-    padding: 12px;
-    margin: 8px;
+.profile-button.balanced {
+  background-color: var(--dracula-green);
+  border-color: var(--dracula-green);
+  color: var(--dracula-background);
 }
 
-box {
-    background-color: transparent;
+.profile-button.powersave {
+  background-color: var(--dracula-cyan);
+  border-color: var(--dracula-cyan);
+  color: var(--dracula-background);
 }
 
-/* Labels */
-label {
-    color: @dracula_fg;
+.profile-button.silent {
+  background-color: var(--dracula-comment);
+  border-color: var(--dracula-comment);
+  color: var(--dracula-foreground);
 }
 
-label.title {
-    color: @dracula_cyan;
-    font-weight: bold;
-    font-size: 1.2em;
-}
-
-label.subtitle {
-    color: @dracula_comment;
-}
-
-label.value {
-    color: @dracula_green;
-    font-weight: bold;
-}
-
-label.warning {
-    color: @dracula_orange;
-}
-
-label.critical {
-    color: @dracula_red;
-}
-
-/* BUTTONS - FORCE BLACK WITH WHITE TEXT */
-/* Using more specific selectors to override GTK defaults */
-window button,
-box button,
-.card button,
 button {
-    background-color: #000000 !important;          /* Pure black - FORCE */
-    background-image: none !important;             /* Remove gradients */
-    color: #ffffff !important;                     /* Pure white text - FORCE */
-    border: 2px solid @dracula_purple !important;  /* Purple border */
-    border-radius: 6px;
-    padding: 8px 16px;
-    min-height: 36px;
-    font-weight: bold;
-    font-size: 1.05em;
-    box-shadow: none !important;                   /* Remove shadows */
+  background-color: var(--dracula-current-line);
+  color: var(--dracula-foreground);
+  border: 1px solid rgba(98, 114, 164, 0.3);
+  min-height: 32px;
+  min-width: 64px;
 }
 
-window button:hover,
-box button:hover,
-.card button:hover,
 button:hover {
-    background-color: #1a1a1a !important;
-    background-image: none !important;
-    border-color: @dracula_cyan !important;
-    color: @dracula_cyan !important;
-    box-shadow: none !important;
+  background-color: var(--dracula-selection);
+  border-color: var(--dracula-comment);
 }
 
-window button:active,
-box button:active,
-.card button:active,
 button:active {
-    background-color: #0a0a0a !important;
-    background-image: none !important;
-    border-color: @dracula_green !important;
-    box-shadow: none !important;
+  background-color: var(--dracula-comment);
 }
 
-/* Green button for suggested actions */
+
+button.toggle {
+  background-color: var(--dracula-current-line);
+  color: var(--dracula-foreground);
+}
+
+button.toggle:checked {
+  background-color: var(--dracula-purple);
+  color: var(--dracula-background);
+  border-color: var(--dracula-purple);
+}
+
 button.suggested-action {
-    background-color: @dracula_green !important;
-    background-image: none !important;
-    color: #000000 !important;
-    border: none !important;
-    font-weight: bold;
-}
-
-button.suggested-action:hover {
-    background-color: alpha(@dracula_green, 0.8) !important;
-    background-image: none !important;
-    color: #000000 !important;
+  background-color: var(--dracula-green);
+  color: var(--dracula-background);
+  border-color: var(--dracula-green);
 }
 
 button.destructive-action {
-    background-color: @dracula_red !important;
-    background-image: none !important;
-    color: #ffffff !important;
-    border: none !important;
+  background-color: var(--dracula-red);
+  color: var(--dracula-foreground);
+  border-color: var(--dracula-red);
 }
 
-button.destructive-action:hover {
-    background-color: alpha(@dracula_red, 0.8) !important;
+
+button:disabled,
+.profile-button:disabled {
+  opacity: 0.5;
+  background-color: var(--dracula-current-line);
+  color: var(--dracula-comment);
 }
 
-/* Entry fields */
-entry {
-    background-color: @dracula_current_line;
-    color: @dracula_fg;
-    border: 1px solid @dracula_comment;
-    border-radius: 6px;
-    padding: 8px;
+headerbar button {
+  background-color: transparent;
+  color: var(--dracula-foreground);
+  border: none;
 }
 
-entry:focus {
-    border-color: @dracula_purple;
+headerbar button:hover {
+  background-color: rgba(68, 71, 90, 0.5);
 }
 
-/* Scales/Sliders */
-scale {
-    color: @dracula_purple;
+headerbar button:active {
+  background-color: var(--dracula-selection);
 }
 
-scale slider {
-    background-color: @dracula_purple;
-    border-radius: 50%;
+
+button.flat {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--dracula-foreground);
 }
 
-scale trough {
-    background-color: @dracula_current_line;
-    border-radius: 4px;
+button.flat:hover {
+  background-color: rgba(68, 71, 90, 0.3);
 }
 
-scale trough highlight {
-    background-color: @dracula_purple;
+button.flat:active {
+  background-color: rgba(68, 71, 90, 0.6);
 }
 
-/* Progress bars */
-progressbar {
-    background-color: @dracula_current_line;
+button.circular {
+  border-radius: 50%;
+  padding: 8px;
+  background-color: var(--dracula-current-line);
+  color: var(--dracula-foreground);
 }
 
-progressbar progress {
-    background-color: @dracula_cyan;
-    border-radius: 4px;
+button.text-button {
+  padding-left: 16px;
+  padding-right: 16px;
+  color: var(--dracula-foreground);
+  background-color: var(--dracula-current-line);
 }
 
-/* Switch */
-switch {
-    background-color: @dracula_current_line;
-    border-radius: 12px;
+
+button.image-button {
+  padding: 8px;
+  background-color: var(--dracula-current-line);
 }
 
-switch:checked {
-    background-color: @dracula_green;
+/* Linked button groups */
+.linked > button {
+  border-radius: 0;
 }
 
-switch slider {
-    background-color: @dracula_fg;
-    border-radius: 50%;
+.linked > button:first-child {
+  border-radius: 6px 0 0 6px;
 }
 
-/* Dropdown/ComboBox - Keep normal styling */
-combobox {
-    background-color: @dracula_current_line;
-    color: @dracula_fg;
-    border: 1px solid @dracula_comment;
-    border-radius: 6px;
+.linked > button:last-child {
+  border-radius: 0 6px 6px 0;
 }
 
-combobox button {
-    border: none !important;
-    background-color: @dracula_current_line !important;
-    background-image: none !important;
-    color: @dracula_fg !important;
+.profile-switcher button,
+.quick-access button,
+.main-controls button {
+  background-color: var(--dracula-current-line) !important;
+  color: var(--dracula-foreground) !important;
+  border: 1px solid var(--dracula-comment) !important;
 }
 
-combobox button:hover {
-    background-color: @dracula_comment !important;
-}
-
-/* Menus */
-menu,
-popover {
-    background-color: @dracula_current_line;
-    color: @dracula_fg;
-    border: 1px solid @dracula_comment;
-    border-radius: 8px;
-}
-
-menuitem {
-    padding: 8px 12px;
-}
-
-menuitem:hover {
-    background-color: @dracula_comment;
-}
-
-/* Scrollbars */
-scrollbar {
-    background-color: @dracula_bg;
-}
-
-scrollbar slider {
-    background-color: @dracula_comment;
-    border-radius: 4px;
-}
-
-scrollbar slider:hover {
-    background-color: @dracula_purple;
-}
-
-/* Notebook/Tabs */
-notebook {
-    background-color: @dracula_bg;
-}
-
-notebook header {
-    background-color: @dracula_current_line;
-}
-
-notebook tab {
-    background-color: @dracula_current_line;
-    color: @dracula_comment;
-    padding: 8px 16px;
-    border-radius: 6px 6px 0 0;
-}
-
-notebook tab:checked {
-    background-color: @dracula_bg;
-    color: @dracula_fg;
-}
-
-/* List and ListBox */
-list,
-listbox {
-    background-color: @dracula_bg;
-    border-radius: 8px;
-}
-
-listbox row {
-    background-color: @dracula_current_line;
-    color: @dracula_fg;
-    border-radius: 6px;
-    margin: 4px;
-    padding: 8px;
-}
-
-listbox row:hover {
-    background-color: @dracula_comment;
-}
-
-listbox row:selected {
-    background-color: @dracula_purple;
-    color: @dracula_fg;
-}
-
-/* Separators */
-separator {
-    background-color: @dracula_comment;
-}
-
-/* Status indicators */
-.status-ok {
-    color: @dracula_green;
-}
-
-.status-warning {
-    color: @dracula_orange;
-}
-
-.status-error {
-    color: @dracula_red;
-}
-
-/* CPU frequency display */
-.freq-display {
-    background-color: @dracula_current_line;
-    border-radius: 8px;
-    padding: 12px;
-    margin: 4px;
-}
-
-.freq-value {
-    color: @dracula_cyan;
-    font-size: 1.4em;
-    font-weight: bold;
-}
-
-.freq-label {
-    color: @dracula_comment;
-    font-size: 0.9em;
-}
-
-/* Temperature display */
-.temp-display {
-    background-color: @dracula_current_line;
-    border-radius: 8px;
-    padding: 12px;
-    margin: 4px;
-}
-
-.temp-normal {
-    color: @dracula_green;
-}
-
-.temp-warm {
-    color: @dracula_yellow;
-}
-
-.temp-hot {
-    color: @dracula_orange;
-}
-
-.temp-critical {
-    color: @dracula_red;
-}
-
-/* Governor selector */
-.governor-button {
-    background-color: @dracula_current_line;
-    border: 2px solid transparent;
-    border-radius: 8px;
-    padding: 12px;
-    margin: 4px;
-}
-
-.governor-button:hover {
-    border-color: @dracula_purple;
-}
-
-.governor-button:checked {
-    background-color: @dracula_purple;
-    border-color: @dracula_purple;
-}
-
-/* Chart/Graph styles */
-.chart-container {
-    background-color: @dracula_current_line;
-    border-radius: 8px;
-    padding: 12px;
-}
-
-.chart-title {
-    color: @dracula_cyan;
-    font-weight: bold;
-}
-
-/* Tooltips */
-tooltip {
-    background-color: @dracula_current_line;
-    color: @dracula_fg;
-    border: 1px solid @dracula_comment;
-    border-radius: 6px;
-    padding: 8px;
-}
-
-/* Dialogs */
-dialog {
-    background-color: @dracula_bg;
-    color: @dracula_fg;
-}
-
-dialog headerbar {
-    background-color: @dracula_current_line;
-}
-
-/* Information messages */
-.info-box {
-    background-color: alpha(@dracula_cyan, 0.2);
-    border-left: 4px solid @dracula_cyan;
-    border-radius: 4px;
-    padding: 12px;
-    margin: 8px;
-}
-
-.warning-box {
-    background-color: alpha(@dracula_orange, 0.2);
-    border-left: 4px solid @dracula_orange;
-    border-radius: 4px;
-    padding: 12px;
-    margin: 8px;
-}
-
-.error-box {
-    background-color: alpha(@dracula_red, 0.2);
-    border-left: 4px solid @dracula_red;
-    border-radius: 4px;
-    padding: 12px;
-    margin: 8px;
+window.background button:not(.suggested-action):not(.destructive-action) {
+  background-image: none;
+  background-color: var(--dracula-current-line);
+  color: var(--dracula-foreground);
 }
