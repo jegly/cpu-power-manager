@@ -1,199 +1,54 @@
+/* Modern Sleek Dark Theme - GTK4 Compatible */
 :root {
-  --dark-background: #1e1e1e;
-  --dark-surface: #2a2a2a;
-  --dark-overlay: #333333;
-  --dark-text: #f0f0f0;
-  --dark-subtext: #aaaaaa;
-  --dark-accent-gray: #444444;
-  --dark-accent-light: #666666;
-  --dark-border: #555555;
-  --dark-focus: #888888;
+  --bg-primary: #0d0d0d;
+  --bg-secondary: #181818;
+  --bg-tertiary: #222222;
+  --bg-elevated: #2a2a2a;
+  --text-primary: #f0f0f0;
+  --text-secondary: #b0b0b0;
+  --text-tertiary: #808080;
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --green: #10b981;
+  --yellow: #f59e0b;
+  --orange: #f97316;
+  --red: #ef4444;
+  --border: #2a2a2a;
+  --border-light: #3a3a3a;
 }
 
-/* Profile buttons */
-.profile-button,
-button.profile-button,
-.quick-profile-button {
-  background-color: var(--dark-surface);
-  color: var(--dark-text);
-  border: 1px solid var(--dark-border);
-  border-radius: 6px;
-  padding: 8px 16px;
-  transition: all 0.3s ease;
-  font-weight: 500;
+window {
+  background-image: linear-gradient(180deg, 
+    rgba(26, 26, 26, 1) 0%, 
+    rgba(18, 18, 18, 1) 25%,
+    rgba(13, 13, 13, 1) 50%,
+    rgba(10, 10, 10, 1) 100%);
 }
 
-.profile-button:hover,
-button.profile-button:hover,
-.quick-profile-button:hover {
-  background-color: var(--dark-overlay);
-  border-color: var(--dark-accent-light);
+/* HeaderBar - sleek and minimal */
+headerbar {
+  background-image: linear-gradient(180deg, 
+    rgba(30, 30, 30, 0.98) 0%, 
+    rgba(20, 20, 20, 0.95) 100%);
+  border-bottom: 1px solid var(--border);
+  min-height: 46px;
+  padding: 6px 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.profile-button:active,
-button.profile-button:active,
-.quick-profile-button:active,
-.profile-button.active,
-button.profile-button.active {
-  background-color: var(--dark-accent-gray);
-  color: var(--dark-text);
-  border-color: var(--dark-accent-gray);
+headerbar .title {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 4px 0;
 }
 
-.profile-button.performance {
-  background-color: #a04040;
-  border-color: #a04040;
-  color: var(--dark-text);
+headerbar .subtitle {
+  color: var(--text-secondary);
+  font-size: 11px;
 }
 
-.profile-button.balanced {
-  background-color: #40a040;
-  border-color: #40a040;
-  color: var(--dark-text);
-}
-
-.profile-button.powersave {
-  background-color: #4080a0;
-  border-color: #4080a0;
-  color: var(--dark-text);
-}
-
-.profile-button.silent {
-  background-color: var(--dark-accent-gray);
-  border-color: var(--dark-accent-gray);
-  color: var(--dark-text);
-}
-
-/* General buttons */
-button {
-  background-color: var(--dark-surface);
-  color: var(--dark-text);
-  border: 1px solid var(--dark-border);
-  min-height: 32px;
-  min-width: 64px;
-}
-
-button:hover {
-  background-color: var(--dark-overlay);
-  border-color: var(--dark-accent-light);
-}
-
-button:active {
-  background-color: var(--dark-accent-gray);
-}
-
-button.toggle {
-  background-color: var(--dark-surface);
-  color: var(--dark-text);
-}
-
-button.toggle:checked {
-  background-color: var(--dark-accent-light);
-  color: var(--dark-text);
-  border-color: var(--dark-accent-light);
-}
-
-button.suggested-action {
-  background-color: #40a040;
-  color: var(--dark-text);
-  border-color: #40a040;
-}
-
-button.destructive-action {
-  background-color: #a04040;
-  color: var(--dark-text);
-  border-color: #a04040;
-}
-
-button:disabled,
-.profile-button:disabled {
-  opacity: 0.5;
-  background-color: var(--dark-surface);
-  color: var(--dark-subtext);
-}
-
-/* Headerbar */
-headerbar button {
-  background-color: transparent;
-  color: var(--dark-text);
-  border: none;
-}
-
-headerbar button:hover {
-  background-color: var(--dark-overlay);
-}
-
-headerbar button:active {
-  background-color: var(--dark-accent-gray);
-}
-
-/* Flat buttons */
-button.flat {
-  background-color: transparent;
-  border-color: transparent;
-  color: var(--dark-text);
-}
-
-button.flat:hover {
-  background-color: var(--dark-overlay);
-}
-
-button.flat:active {
-  background-color: var(--dark-accent-gray);
-}
-
-/* Circular buttons */
-button.circular {
-  border-radius: 50%;
-  padding: 8px;
-  background-color: var(--dark-surface);
-  color: var(--dark-text);
-}
-
-/* Text buttons */
-button.text-button {
-  padding-left: 16px;
-  padding-right: 16px;
-  color: var(--dark-text);
-  background-color: var(--dark-surface);
-}
-
-/* Image buttons */
-button.image-button {
-  padding: 8px;
-  background-color: var(--dark-surface);
-}
-
-/* Linked button groups */
-.linked > button {
-  border-radius: 0;
-}
-
-.linked > button:first-child {
-  border-radius: 6px 0 0 6px;
-}
-
-.linked > button:last-child {
-  border-radius: 0 6px 6px 0;
-}
-
-.profile-switcher button,
-.quick-access button,
-.main-controls button {
-  background-color: var(--dark-surface) !important;
-  color: var(--dark-text) !important;
-  border: 1px solid var(--dark-border) !important;
-}
-
-window.background button:not(.suggested-action):not(.destructive-action) {
-  background-image: none;
-  background-color: var(--dark-surface);
-  color: var(--dark-text);
-}
-
-/* ========================= */
-/* Traffic light window controls */
-/* ========================= */
+/* Traffic light buttons - perfect circles */
 .traffic-btn {
   min-width: 12px;
   min-height: 12px;
@@ -204,48 +59,357 @@ window.background button:not(.suggested-action):not(.destructive-action) {
   border-radius: 6px;
   border: none;
   font-size: 0;
+  background: var(--bg-tertiary);
   -gtk-icon-size: 0;
-  transition: opacity 0.2s ease;
 }
 
 .traffic-btn:hover {
   opacity: 0.8;
 }
 
-/* Close button */
 .traffic-close {
   background-color: #ff5f57;
+  background-image: none;
 }
 .traffic-close:hover {
   background-color: #ff3b30;
+  background-image: none;
 }
 
-/* Minimize button */
 .traffic-minimize {
   background-color: #ffbd2e;
+  background-image: none;
 }
 .traffic-minimize:hover {
   background-color: #ff9500;
+  background-image: none;
 }
 
-/* Maximize button */
 .traffic-maximize {
   background-color: #28c840;
+  background-image: none;
 }
 .traffic-maximize:hover {
   background-color: #00b341;
+  background-image: none;
 }
 
-/* Custom headerbar with traffic buttons */
-.custom-headerbar {
-  background: linear-gradient(180deg, var(--dark-background) 0%, var(--dark-surface) 100%);
-  border-bottom: 1px solid var(--dark-border);
-  padding: 4px 8px;
-  min-height: 32px;
-  display: flex;
-  align-items: center;
+/* Sleek card design */
+.card, frame {
+  background-image: linear-gradient(135deg, 
+    rgba(24, 24, 24, 1) 0%, 
+    rgba(30, 30, 30, 1) 50%,
+    rgba(34, 34, 34, 1) 100%);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 8px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.custom-headerbar .traffic-btn {
-  margin-right: 6px;
+frame > border {
+  border: none;
+}
+
+frame > label {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 13px;
+  padding: 0 8px;
+}
+
+/* Typography */
+.title {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+label {
+  color: var(--text-primary);
+  font-size: 13px;
+}
+
+/* Modern sleek buttons - compact */
+button {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 18px;
+  min-height: 36px;
+  font-weight: 500;
+  font-size: 13px;
+  transition: all 200ms;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background-color: var(--bg-elevated);
+  border-color: var(--border-light);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Profile buttons - clean and compact */
+.profile-button {
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: 500;
+  min-width: 110px;
+}
+
+.profile-button:hover {
+  background-color: var(--bg-elevated);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+/* Suggested action - clean blue */
+button.suggested-action {
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+button.suggested-action:hover {
+  background-color: var(--accent-hover);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+/* Switch - SMALL and sleek */
+switch {
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-height: 22px;
+  min-width: 40px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+switch:checked {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+switch slider {
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  min-height: 16px;
+  min-width: 16px;
+  margin: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* ComboBox - sleek dropdown */
+combobox button {
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  padding: 8px 12px;
+  min-height: 36px;
+}
+
+combobox button:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  background-color: var(--bg-elevated);
+}
+
+combobox popover {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  padding: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Value displays */
+.value {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.freq-value {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.5px;
+}
+
+/* Temperature colors */
+.temp-normal {
+  color: var(--green);
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.temp-warm {
+  color: var(--yellow);
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.temp-hot {
+  color: var(--orange);
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.temp-critical {
+  color: var(--red);
+  font-weight: 700;
+  font-size: 22px;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Status indicators */
+.status-ok {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.status-warning {
+  color: var(--yellow);
+  font-weight: 600;
+}
+
+/* Per-core display - compact */
+.freq-display {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin: 3px 0;
+  transition: all 200ms;
+}
+
+.freq-display:hover {
+  border-color: var(--border-light);
+  background-color: var(--bg-tertiary);
+}
+
+/* Scrollbar - minimal */
+scrollbar {
+  background: transparent;
+}
+
+scrollbar slider {
+  background: rgba(60, 60, 60, 0.6);
+  border-radius: 10px;
+  min-width: 6px;
+  min-height: 6px;
+  border: none;
+}
+
+scrollbar slider:hover {
+  background: rgba(80, 80, 80, 0.8);
+}
+
+/* Focus states */
+*:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.6);
+  outline-offset: 2px;
+}
+
+button:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 1px;
+}
+
+.traffic-light:focus {
+  outline: none;
+}
+
+/* Turbo Boost Modern Toggle - SMALL AND SLEEK */
+.turbo-switch {
+  background-image: linear-gradient(180deg, 
+    rgba(34, 34, 34, 1) 0%, 
+    rgba(24, 24, 24, 1) 100%);
+  border: 1px solid var(--border-light);
+  border-radius: 11px;
+  min-height: 20px;
+  min-width: 38px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.turbo-switch:checked {
+  background-image: linear-gradient(180deg, 
+    rgba(16, 185, 129, 1) 0%, 
+    rgba(5, 150, 105, 1) 100%);
+  border-color: rgba(16, 185, 129, 0.8);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15), 
+              0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.turbo-switch slider {
+  background-image: linear-gradient(180deg, 
+    rgba(255, 255, 255, 1) 0%, 
+    rgba(230, 230, 230, 1) 100%);
+  border-radius: 50%;
+  min-height: 14px;
+  min-width: 14px;
+  margin: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.turbo-switch:checked slider {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 
+              0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.turbo-status {
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  transition: all 250ms;
+}
+
+.turbo-on {
+  color: #10b981;
+  background-color: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.turbo-off {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* CPU Usage Graph */
+drawingarea {
+  background-image: linear-gradient(180deg, 
+    rgba(21, 21, 21, 1) 0%, 
+    rgba(13, 13, 13, 1) 100%);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-height: 200px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
 }
