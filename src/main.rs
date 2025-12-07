@@ -66,10 +66,11 @@ fn main() -> Result<()> {
 
     app.connect_startup(|_| {
         log::info!("Application startup");
-        setup_css();
     });
 
     app.connect_activate(move |app| {
+        setup_css(); // Load CSS here to ensure it's applied before the window is built
+
         log::info!("Application activate");
         let window = app::AppWindow::new(app);
 
@@ -139,7 +140,7 @@ fn setup_css() {
 
     let provider = CssProvider::new();
 
-    // Load Dracula theme CSS
+    // Load Dracula theme CSS with traffic light styles
     let css = include_str!("../resources/style.css");
     provider.load_from_data(css);
 
@@ -149,5 +150,3 @@ fn setup_css() {
         gtk4::STYLE_PROVIDER_PRIORITY_APPLICATION,
     );
 }
-
-
