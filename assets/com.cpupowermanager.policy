@@ -4,7 +4,7 @@
  "http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
 <policyconfig>
   <vendor>CPU Power Manager</vendor>
-  <vendor_url>https://github.com/globalcve/cpu-power-manager</vendor_url>
+  <vendor_url>https://github.com/jegly/cpu-power-manager</vendor_url>
 
   <action id="com.cpupowermanager.setcpufreq">
     <description>Set CPU frequency and governor</description>
@@ -39,4 +39,3 @@
     <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/cpu-power-manager</annotate>
   </action>
 </policyconfig>
-
