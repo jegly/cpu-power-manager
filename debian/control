@@ -1,7 +1,7 @@
 Source: cpu-power-manager
 Section: utils
 Priority: optional
-Maintainer: JEGLY <globalcve@gmail.com>
+Maintainer: JEGLY
 Build-Depends: debhelper (>= 11), cargo, rustc, libgtk-4-dev, libadwaita-1-dev, libglib2.0-dev, pkg-config
 Standards-Version: 4.5.0
 Homepage: https://github.com/globalcve/cpu-power-manager
