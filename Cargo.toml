@@ -1,20 +1,18 @@
-cargo-features = ["edition2024"]
-
 [package]
 name = "cpu-power-manager"
-version = "1.0.0"
-edition = "2024"
-authors = ["JEGLY <globalcve@gmail.com>"]
+version = "1.0.0-2"
+edition = "2021"
+authors = ["JEGLY"]
 description = "Advanced CPU power management tool with GTK4 interface and Dracula theme"
 license = "GPL-3.0"
-repository = "https://github.com/globalcve/cpu-power-manager"
+repository = "https://github.com/jegly/cpu-power-manager"
 readme = "README.md"
 keywords = ["cpu", "power", "frequency", "linux", "gtk4"]
 categories = ["command-line-utilities", "os::linux-apis"]
 
 [dependencies]
-gtk4 = { version = "0.9", features = ["v4_10"] }
-libadwaita = { version = "0.7", features = ["v1_5"] }
+gtk4 = { version = "0.9", features = ["v4_6"] }
+libadwaita = { version = "0.7", features = ["v1_1"] }
 glib = "0.20"
 gio = "0.20"
 sysinfo = "0.31"
@@ -46,8 +44,8 @@ codegen-units = 1
 strip = true
 
 [package.metadata.deb]
-maintainer = "JEGLY <globalcve@gmail.com>"
-copyright = "2025, JEGLY <globalcve@gmail.com>"
+maintainer = "JEGLY"
+copyright = "2025, JEGLY"
 license-file = ["LICENSE", "4"]
 extended-description = """\
 A comprehensive CPU power management tool for Linux with intelligent \
@@ -70,4 +68,3 @@ assets = [
     { source = "target/release/cpu-power-manager", dest = "/usr/bin/cpu-power-manager", mode = "755" },
     { source = "assets/cpu-power-manager.desktop", dest = "/usr/share/applications/cpu-power-manager.desktop", mode = "644" },
 ]
-
