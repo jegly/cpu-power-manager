@@ -1,5 +1,5 @@
 use gtk4::prelude::*;
-use gtk4::{glib, Application, ApplicationWindow, Box, Button, HeaderBar, Label, Orientation, Switch, ComboBoxText, Grid, ScrolledWindow, Frame};
+use gtk4::{glib, Application, ApplicationWindow, Box, Button, HeaderBar, Label, Orientation, Switch, DropDown, StringList, Grid, ScrolledWindow, Frame};
 use crate::backend::CpuManager;
 use crate::backend::thermal::ThermalManager;
 use crate::backend::profile::ProfileManager;
@@ -18,6 +18,8 @@ pub struct AppWindow {
     governor_label: Label,
     turbo_label: Label,
     per_core_box: Box,
+    cpu_usage_area: gtk4::DrawingArea,
+    cpu_usage_history: Arc<Mutex<Vec<f32>>>,
 }
 
 impl AppWindow {
@@ -46,6 +48,12 @@ impl AppWindow {
         let governor_label = Label::new(Some("--"));
         let turbo_label = Label::new(Some("--"));
         let per_core_box = Box::new(Orientation::Vertical, 4);
+        
+        // CPU usage graph
+        let cpu_usage_area = gtk4::DrawingArea::new();
+        cpu_usage_area.set_content_width(600);
+        cpu_usage_area.set_content_height(200);
+        let cpu_usage_history = Arc::new(Mutex::new(vec![0.0; 60])); // 60 seconds of history
 
         let app_window = Self {
             window,
@@ -58,6 +66,8 @@ impl AppWindow {
             governor_label,
             turbo_label,
             per_core_box,
+            cpu_usage_area,
+            cpu_usage_history,
         };
 
         app_window.setup_ui();
@@ -67,13 +77,59 @@ impl AppWindow {
     fn setup_ui(&self) {
         // Create header bar
         let header = HeaderBar::new();
-        header.set_show_title_buttons(true);
+        // Disable default minimize/maximize/close buttons
+        header.set_show_title_buttons(false);
         
-        let title_box = Box::new(Orientation::Vertical, 4);
+        // Add macOS-style traffic lights to the left
+        let traffic_box = Box::new(Orientation::Horizontal, 8);
+        traffic_box.set_margin_start(12);
+        
+        // Close button (red)
+        let close_btn = Button::new();
+        close_btn.set_size_request(12, 12);
+        close_btn.add_css_class("traffic-btn");
+        close_btn.add_css_class("traffic-close");
+        let window_clone = self.window.clone();
+        close_btn.connect_clicked(move |_| {
+            window_clone.close();
+        });
+        
+        // Minimize button (yellow)
+        let min_btn = Button::new();
+        min_btn.set_size_request(12, 12);
+        min_btn.add_css_class("traffic-btn");
+        min_btn.add_css_class("traffic-minimize");
+        let window_clone = self.window.clone();
+        min_btn.connect_clicked(move |_| {
+            window_clone.minimize();
+        });
+        
+        // Maximize button (green)
+        let max_btn = Button::new();
+        max_btn.set_size_request(12, 12);
+        max_btn.add_css_class("traffic-btn");
+        max_btn.add_css_class("traffic-maximize");
+        let window_clone = self.window.clone();
+        max_btn.connect_clicked(move |_| {
+            if window_clone.is_maximized() {
+                window_clone.unmaximize();
+            } else {
+                window_clone.maximize();
+            }
+        });
+        
+        traffic_box.append(&close_btn);
+        traffic_box.append(&min_btn);
+        traffic_box.append(&max_btn);
+        
+        header.pack_start(&traffic_box);
+        
+        // Title in center
+        let title_box = Box::new(Orientation::Vertical, 0);
         let title = Label::new(Some("CPU Power Manager"));
-        title.add_css_class("title");
+        title.add_css_class("header-title");
         let subtitle = Label::new(Some("Advanced CPU Control"));
-        subtitle.add_css_class("subtitle");
+        subtitle.add_css_class("header-subtitle");
         title_box.append(&title);
         title_box.append(&subtitle);
         header.set_title_widget(Some(&title_box));
@@ -95,6 +151,10 @@ impl AppWindow {
         // Dashboard section
         let dashboard = self.create_dashboard();
         main_box.append(&dashboard);
+
+        // CPU Usage Graph section
+        let cpu_graph = self.create_cpu_usage_graph();
+        main_box.append(&cpu_graph);
 
         // Quick Profile buttons
         let profiles_box = self.create_profile_buttons();
@@ -188,6 +248,89 @@ impl AppWindow {
         dashboard
     }
 
+    fn create_cpu_usage_graph(&self) -> Frame {
+        let frame = Frame::new(Some("CPU Usage History"));
+        frame.add_css_class("card");
+
+        let graph_box = Box::new(Orientation::Vertical, 8);
+        graph_box.set_margin_top(12);
+        graph_box.set_margin_bottom(12);
+        graph_box.set_margin_start(12);
+        graph_box.set_margin_end(12);
+
+        // Setup drawing function
+        let history_clone = self.cpu_usage_history.clone();
+        self.cpu_usage_area.set_draw_func(move |_area, cr, width, height| {
+            let history = history_clone.lock().unwrap();
+            
+            // Background
+            cr.set_source_rgb(0.08, 0.08, 0.08);
+            let _ = cr.paint();
+            
+            // Grid lines
+            cr.set_source_rgba(0.2, 0.2, 0.2, 0.5);
+            cr.set_line_width(1.0);
+            for i in 0..5 {
+                let y = (i as f64 / 4.0) * height as f64;
+                let _ = cr.move_to(0.0, y);
+                let _ = cr.line_to(width as f64, y);
+                let _ = cr.stroke();
+            }
+            
+            // Draw usage graph
+            if history.len() > 1 {
+                let point_spacing = width as f64 / (history.len() - 1) as f64;
+                
+                // Create gradient fill
+                cr.set_source_rgba(0.23, 0.51, 0.96, 0.3);
+                let _ = cr.move_to(0.0, height as f64);
+                
+                for (i, &usage) in history.iter().enumerate() {
+                    let x = i as f64 * point_spacing;
+                    let y = height as f64 - (usage as f64 / 100.0 * height as f64);
+                    let _ = cr.line_to(x, y);
+                }
+                
+                let _ = cr.line_to(width as f64, height as f64);
+                let _ = cr.close_path();
+                let _ = cr.fill();
+                
+                // Draw line
+                cr.set_source_rgb(0.23, 0.51, 0.96);
+                cr.set_line_width(2.5);
+                let _ = cr.move_to(0.0, height as f64 - (history[0] as f64 / 100.0 * height as f64));
+                
+                for (i, &usage) in history.iter().enumerate() {
+                    let x = i as f64 * point_spacing;
+                    let y = height as f64 - (usage as f64 / 100.0 * height as f64);
+                    let _ = cr.line_to(x, y);
+                }
+                let _ = cr.stroke();
+            }
+        });
+
+        graph_box.append(&self.cpu_usage_area);
+        
+        // Add labels
+        let info_box = Box::new(Orientation::Horizontal, 12);
+        info_box.set_halign(gtk4::Align::Center);
+        
+        let label_100 = Label::new(Some("100%"));
+        label_100.add_css_class("subtitle");
+        let label_0 = Label::new(Some("0%"));
+        label_0.add_css_class("subtitle");
+        let label_time = Label::new(Some("← 60s history"));
+        label_time.add_css_class("subtitle");
+        
+        info_box.append(&label_100);
+        info_box.append(&label_time);
+        info_box.append(&label_0);
+        
+        graph_box.append(&info_box);
+        frame.set_child(Some(&graph_box));
+        frame
+    }
+
     fn create_profile_buttons(&self) -> Box {
         let section = Box::new(Orientation::Vertical, 8);
         
@@ -210,7 +353,6 @@ impl AppWindow {
                 match profile_clone.apply(&cpu_manager) {
                     Ok(_) => {
                         btn.set_label(&format!("✓ {}", profile_clone.name));
-                        // Reset label after 2 seconds
                         let btn_clone = btn.clone();
                         let name = profile_clone.name.clone();
                         glib::timeout_add_seconds_local(2, move || {
@@ -236,12 +378,11 @@ impl AppWindow {
 
         section.append(&profiles_box);
 
-        // ============ NEW: Add Maximum Frequency Button ============
         let max_freq_box = Box::new(Orientation::Horizontal, 8);
         max_freq_box.set_halign(gtk4::Align::Center);
         max_freq_box.set_margin_top(12);
 
-        let max_freq_button = Button::with_label("🚀 Maximum Frequency (All Cores)");
+        let max_freq_button = Button::with_label("Maximum Frequency (All Cores)");
         max_freq_button.add_css_class("suggested-action");
         max_freq_button.set_tooltip_text(Some("Automatically detect and set to your CPU's maximum hardware frequency"));
         
@@ -249,68 +390,47 @@ impl AppWindow {
         max_freq_button.connect_clicked(move |btn| {
             let cpu_manager = cpu_manager_clone.lock().unwrap();
             
-            // DYNAMICALLY READ hardware maximum frequency from CPU
             match cpu_manager.get_hardware_max_freq(0) {
                 Ok(max_freq) => {
-                    log::info!("Detected hardware maximum frequency: {} MHz (reading from /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq)", max_freq);
-                    log::info!("Setting all {} cores to maximum frequency: {} MHz", cpu_manager.core_count(), max_freq);
+                    log::info!("Detected hardware maximum frequency: {} MHz", max_freq);
                     
-                    // Get hardware minimum
                     let hw_min = match cpu_manager.get_hardware_min_freq(0) {
-                        Ok(min) => {
-                            log::debug!("Hardware minimum frequency: {} MHz", min);
-                            min
-                        },
+                        Ok(min) => min,
                         Err(e) => {
                             log::error!("Failed to get hardware min freq: {}", e);
                             btn.set_label("✗ Error reading min freq");
                             let btn_clone = btn.clone();
                             glib::timeout_add_seconds_local(3, move || {
-                                btn_clone.set_label("🚀 Maximum Frequency (All Cores)");
+                                btn_clone.set_label("Maximum Frequency (All Cores)");
                                 glib::ControlFlow::Break
                             });
                             return;
                         }
                     };
 
-                    // Reset all limits to full hardware range (removes any caps)
-                    log::info!("Resetting frequency range to hardware limits: {}-{} MHz", hw_min, max_freq);
                     for core in 0..cpu_manager.core_count() {
-                        if let Err(e) = cpu_manager.set_scaling_min_freq(core, hw_min) {
-                            log::warn!("Failed to reset min freq for core {}: {}", core, e);
-                        }
-                        if let Err(e) = cpu_manager.set_scaling_max_freq(core, max_freq) {
-                            log::warn!("Failed to set max freq for core {}: {}", core, e);
-                        }
+                        let _ = cpu_manager.set_scaling_min_freq(core, hw_min);
+                        let _ = cpu_manager.set_scaling_max_freq(core, max_freq);
                     }
 
-                    // Set performance governor for best speed
-                    if let Err(e) = cpu_manager.set_governor_all("performance") {
-                        log::warn!("Failed to set performance governor: {}", e);
-                    }
-
-                    // Enable turbo boost
-                    if let Err(e) = cpu_manager.set_turbo(true) {
-                        log::warn!("Failed to enable turbo: {}", e);
-                    }
+                    let _ = cpu_manager.set_governor_all("performance");
+                    let _ = cpu_manager.set_turbo(true);
 
                     btn.set_label(&format!("✓ Set to {} MHz", max_freq));
-                    log::info!("Successfully configured all cores for maximum frequency: {} MHz", max_freq);
                     
-                    // Reset button label after 3 seconds
                     let btn_clone = btn.clone();
                     glib::timeout_add_seconds_local(3, move || {
-                        btn_clone.set_label("🚀 Maximum Frequency (All Cores)");
+                        btn_clone.set_label("Maximum Frequency (All Cores)");
                         glib::ControlFlow::Break
                     });
                 }
                 Err(e) => {
-                    log::error!("Failed to read hardware max frequency from CPU: {}", e);
+                    log::error!("Failed to read hardware max frequency: {}", e);
                     btn.set_label("✗ Cannot read CPU max freq");
                     
                     let btn_clone = btn.clone();
                     glib::timeout_add_seconds_local(3, move || {
-                        btn_clone.set_label("🚀 Maximum Frequency (All Cores)");
+                        btn_clone.set_label("Maximum Frequency (All Cores)");
                         glib::ControlFlow::Break
                     });
                 }
@@ -319,7 +439,6 @@ impl AppWindow {
 
         max_freq_box.append(&max_freq_button);
         section.append(&max_freq_box);
-        // ============ END NEW BUTTON ============
 
         section
     }
@@ -338,53 +457,77 @@ impl AppWindow {
 
         let cpu_manager = self.cpu_manager.lock().unwrap();
 
-        // Governor selector
         let gov_label = Label::new(Some("Governor:"));
         gov_label.set_halign(gtk4::Align::End);
         grid.attach(&gov_label, 0, 0, 1, 1);
 
-        let governor_combo = ComboBoxText::new();
+        let governor_combo = DropDown::new(None::<StringList>, None::<gtk4::Expression>);
         if let Ok(governors) = cpu_manager.get_available_governors(0) {
-            for gov in governors {
-                governor_combo.append_text(&gov);
-            }
+            let string_list = StringList::new(&governors.iter().map(|s| s.as_str()).collect::<Vec<_>>());
+            governor_combo.set_model(Some(&string_list));
+            
             if let Ok(current) = cpu_manager.get_governor(0) {
-                governor_combo.set_active_id(Some(&current));
+                if let Some(pos) = governors.iter().position(|g| g == &current) {
+                    governor_combo.set_selected(pos as u32);
+                }
             }
         }
 
         let cpu_mgr_clone = self.cpu_manager.clone();
-        governor_combo.connect_changed(move |combo| {
-            if let Some(governor) = combo.active_text() {
+        let governors_clone = cpu_manager.get_available_governors(0).unwrap_or_default();
+        governor_combo.connect_selected_notify(move |combo| {
+            let selected = combo.selected() as usize;
+            if selected < governors_clone.len() {
+                let governor = &governors_clone[selected];
                 let cpu_manager = cpu_mgr_clone.lock().unwrap();
-                if let Err(e) = cpu_manager.set_governor_all(&governor) {
+                if let Err(e) = cpu_manager.set_governor_all(governor) {
                     log::error!("Failed to set governor: {}", e);
                 }
             }
         });
         grid.attach(&governor_combo, 1, 0, 1, 1);
 
-        // Turbo boost toggle
         let turbo_label = Label::new(Some("Turbo Boost:"));
         turbo_label.set_halign(gtk4::Align::End);
         grid.attach(&turbo_label, 0, 1, 1, 1);
 
+        let turbo_box = Box::new(Orientation::Horizontal, 8);
         let turbo_switch = Switch::new();
+        turbo_switch.add_css_class("turbo-switch");
         if let Ok(enabled) = cpu_manager.is_turbo_enabled() {
             turbo_switch.set_active(enabled);
         }
 
+        let turbo_status_label = Label::new(Some(if turbo_switch.is_active() { "ON" } else { "OFF" }));
+        turbo_status_label.add_css_class("turbo-status");
+        if turbo_switch.is_active() {
+            turbo_status_label.add_css_class("turbo-on");
+        } else {
+            turbo_status_label.add_css_class("turbo-off");
+        }
+
         let cpu_mgr_clone = self.cpu_manager.clone();
-        turbo_switch.connect_state_set(move |_, state| {
+        let status_label_clone = turbo_status_label.clone();
+        turbo_switch.connect_state_set(move |_sw, state| {
             let cpu_manager = cpu_mgr_clone.lock().unwrap();
             if let Err(e) = cpu_manager.set_turbo(state) {
                 log::error!("Failed to set turbo: {}", e);
             }
+            status_label_clone.set_text(if state { "ON" } else { "OFF" });
+            status_label_clone.remove_css_class("turbo-on");
+            status_label_clone.remove_css_class("turbo-off");
+            if state {
+                status_label_clone.add_css_class("turbo-on");
+            } else {
+                status_label_clone.add_css_class("turbo-off");
+            }
             glib::Propagation::Proceed
         });
-        grid.attach(&turbo_switch, 1, 1, 1, 1);
+        
+        turbo_box.append(&turbo_switch);
+        turbo_box.append(&turbo_status_label);
+        grid.attach(&turbo_box, 1, 1, 1, 1);
 
-        // Info label
         let info_label = Label::new(Some("Note: Changes require root privileges. Run with sudo or configure PolicyKit."));
         info_label.add_css_class("subtitle");
         info_label.set_wrap(true);
@@ -418,7 +561,6 @@ impl AppWindow {
 
         let cpu_manager = self.cpu_manager.lock().unwrap();
         
-        // Available Governors
         if let Ok(governors) = cpu_manager.get_available_governors(0) {
             let gov_label = Label::new(Some(&format!("Available Governors: {}", governors.join(", "))));
             status_box.append(&gov_label);
@@ -428,7 +570,6 @@ impl AppWindow {
     }
 
     fn setup_updates(&self) {
-        // Setup periodic UI updates every second
         let freq_label = self.freq_label.clone();
         let temp_label = self.temp_label.clone();
         let governor_label = self.governor_label.clone();
@@ -439,19 +580,16 @@ impl AppWindow {
         let cpu_mgr_clone = self.cpu_manager.clone();
 
         glib::timeout_add_seconds_local(1, move || {
-            // Update frequency
             let cpu_mgr = cpu_manager.lock().unwrap();
             if let Ok(freqs) = cpu_mgr.get_all_frequencies() {
                 let avg_freq = freqs.iter().sum::<u32>() / freqs.len() as u32;
                 freq_label.set_text(&format!("{} MHz", avg_freq));
             }
 
-            // Update temperature
             let thermal_mgr = thermal_manager.lock().unwrap();
             if let Ok(temp) = thermal_mgr.get_cpu_temperature() {
                 temp_label.set_text(&format!("{:.1}°C", temp));
                 
-                // Update CSS class based on temperature
                 temp_label.remove_css_class("temp-normal");
                 temp_label.remove_css_class("temp-warm");
                 temp_label.remove_css_class("temp-hot");
@@ -468,12 +606,10 @@ impl AppWindow {
                 }
             }
 
-            // Update governor
             if let Ok(gov) = cpu_mgr.get_governor(0) {
                 governor_label.set_text(&gov);
             }
 
-            // Update turbo
             if let Ok(turbo) = cpu_mgr.is_turbo_enabled() {
                 turbo_label.set_text(if turbo { "Enabled" } else { "Disabled" });
                 if turbo {
@@ -488,12 +624,10 @@ impl AppWindow {
             glib::ControlFlow::Continue
         });
 
-        // Update per-core display every 2 seconds (heavier operation)
         let cpu_mgr_clone2 = cpu_mgr_clone.clone();
         glib::timeout_add_seconds_local(2, move || {
             let cpu_mgr = cpu_mgr_clone2.lock().unwrap();
             
-            // Clear existing
             while let Some(child) = per_core_box.first_child() {
                 per_core_box.remove(&child);
             }
@@ -517,6 +651,29 @@ impl AppWindow {
                 }
             }
 
+            glib::ControlFlow::Continue
+        });
+
+        let cpu_usage_history = self.cpu_usage_history.clone();
+        let cpu_usage_area = self.cpu_usage_area.clone();
+        let cpu_mgr_clone3 = self.cpu_manager.clone();
+        
+        glib::timeout_add_seconds_local(1, move || {
+            let cpu_mgr = cpu_mgr_clone3.lock().unwrap();
+            
+            if let Ok(freqs) = cpu_mgr.get_all_frequencies() {
+                if let Ok(info) = cpu_mgr.get_cpu_info() {
+                    let avg_freq = freqs.iter().sum::<u32>() / freqs.len() as u32;
+                    let usage_percent = ((avg_freq as f32 / info.max_freq as f32) * 100.0).min(100.0);
+                    
+                    let mut history = cpu_usage_history.lock().unwrap();
+                    history.remove(0);
+                    history.push(usage_percent);
+                    
+                    cpu_usage_area.queue_draw();
+                }
+            }
+            
             glib::ControlFlow::Continue
         });
     }
