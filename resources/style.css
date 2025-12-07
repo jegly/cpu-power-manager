@@ -36,31 +36,28 @@ headerbar {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-headerbar .title {
+headerbar .header-title {
   color: var(--text-primary);
   font-weight: 600;
   font-size: 14px;
-  padding: 4px 0;
+  padding: 2px 0 0 0;
 }
 
-headerbar .subtitle {
+headerbar .header-subtitle {
   color: var(--text-secondary);
   font-size: 11px;
+  padding: 0;
 }
 
 /* Traffic light buttons - perfect circles */
 .traffic-btn {
   min-width: 12px;
   min-height: 12px;
-  max-width: 12px;
-  max-height: 12px;
   padding: 0;
   margin: 0 4px;
   border-radius: 6px;
   border: none;
   font-size: 0;
-  background: var(--bg-tertiary);
-  -gtk-icon-size: 0;
 }
 
 .traffic-btn:hover {
@@ -73,7 +70,6 @@ headerbar .subtitle {
 }
 .traffic-close:hover {
   background-color: #ff3b30;
-  background-image: none;
 }
 
 .traffic-minimize {
@@ -82,7 +78,6 @@ headerbar .subtitle {
 }
 .traffic-minimize:hover {
   background-color: #ff9500;
-  background-image: none;
 }
 
 .traffic-maximize {
@@ -91,7 +86,6 @@ headerbar .subtitle {
 }
 .traffic-maximize:hover {
   background-color: #00b341;
-  background-image: none;
 }
 
 /* Sleek card design */
@@ -160,22 +154,6 @@ button:hover {
 button:active {
   transform: translateY(0);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-/* Profile buttons - clean and compact */
-.profile-button {
-  background-color: var(--bg-tertiary);
-  border: 1px solid var(--border-light);
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-weight: 500;
-  min-width: 110px;
-}
-
-.profile-button:hover {
-  background-color: var(--bg-elevated);
-  border-color: rgba(59, 130, 246, 0.5);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 
 /* Suggested action - clean blue */
@@ -339,7 +317,7 @@ button:focus {
   outline-offset: 1px;
 }
 
-.traffic-light:focus {
+.traffic-btn:focus {
   outline: none;
 }
 
