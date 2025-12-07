@@ -12,6 +12,13 @@
 [Quick Start Guide](https://github.com/globalcve/cpu-power-manager/blob/main/QUICK_START.md)
 
 
+<p align="center">
+  <img src="https://github.com/jegly/cpu-power-manager/blob/main/screenshot_1.png" width="600" />
+  <br/>
+  <img src="https://github.com/jegly/cpu-power-manager/blob/main/screenshot_2.png" width="600" />
+</p>
+
+
 ## Features
 
 ### Core Functionality
