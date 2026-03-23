@@ -82,7 +82,6 @@ pub struct LoggingConfig {
     pub max_log_size_mb: u64,
 }
 
-// Default value functions
 fn default_true() -> bool { true }
 fn default_polling_interval() -> u64 { 1000 }
 fn default_temp_unit() -> String { "celsius".to_string() }
@@ -98,8 +97,10 @@ fn default_emergency_temp() -> f32 { 95.0 }
 fn default_graph_history() -> u64 { 300 }
 fn default_log_level() -> String { "info".to_string() }
 fn default_log_path() -> String {
-    format!("{}/.local/share/cpu-power-manager/app.log", 
-            std::env::var("HOME").unwrap_or_else(|_| "/tmp".to_string()))
+    format!(
+        "{}/.local/share/cpu-power-manager/app.log",
+        std::env::var("HOME").unwrap_or_else(|_| "/tmp".to_string())
+    )
 }
 fn default_max_log_size() -> u64 { 10 }
 
@@ -181,35 +182,28 @@ impl ConfigManager {
     pub fn new() -> Result<Self> {
         let config_path = Self::get_config_path()?;
         let config = Self::load_config(&config_path)?;
-        
-        Ok(Self {
-            config,
-            config_path,
-        })
+        Ok(Self { config, config_path })
     }
 
     fn get_config_path() -> Result<PathBuf> {
         let config_dir = if let Ok(xdg_config) = std::env::var("XDG_CONFIG_HOME") {
             PathBuf::from(xdg_config)
         } else {
-            let home = std::env::var("HOME")
-                .context("HOME environment variable not set")?;
+            let home =
+                std::env::var("HOME").context("HOME environment variable not set")?;
             PathBuf::from(home).join(".config")
         };
 
         let app_config_dir = config_dir.join("cpu-power-manager");
-        fs::create_dir_all(&app_config_dir)
-            .context("Failed to create config directory")?;
-
+        fs::create_dir_all(&app_config_dir).context("Failed to create config directory")?;
         Ok(app_config_dir.join("config.toml"))
     }
 
     fn load_config(path: &PathBuf) -> Result<Config> {
         if path.exists() {
-            let config_str = fs::read_to_string(path)
-                .context("Failed to read config file")?;
-            toml::from_str(&config_str)
-                .context("Failed to parse config file")
+            let config_str =
+                fs::read_to_string(path).context("Failed to read config file")?;
+            toml::from_str(&config_str).context("Failed to parse config file")
         } else {
             let config = Config::default();
             let config_str = toml::to_string_pretty(&config)?;
@@ -220,8 +214,7 @@ impl ConfigManager {
 
     pub fn save(&self) -> Result<()> {
         let config_str = toml::to_string_pretty(&self.config)?;
-        fs::write(&self.config_path, config_str)
-            .context("Failed to save config file")
+        fs::write(&self.config_path, config_str).context("Failed to save config file")
     }
 
     pub fn get_config(&self) -> &Config {
@@ -232,13 +225,19 @@ impl ConfigManager {
         &mut self.config
     }
 
+    // FIX: original returned Option<&Profile> which forced callers to unwrap and
+    // made the CLI `ApplyProfile` command fail to compile (expected Result).
+    // Now returns Result<Profile> with a descriptive error on unknown names.
     pub fn get_profile(&self, name: &str) -> Result<Profile> {
-        match name {
+        match name.to_lowercase().as_str() {
             "performance" => Ok(Profile::performance()),
-            "balanced" => Ok(Profile::balanced()),
-            "powersave" => Ok(Profile::powersave()),
-            "silent" => Ok(Profile::silent()),
-            _ => anyhow::bail!("Profile '{}' not found", name),
+            "balanced"    => Ok(Profile::balanced()),
+            "powersave"   => Ok(Profile::powersave()),
+            "silent"      => Ok(Profile::silent()),
+            _ => anyhow::bail!(
+                "Profile '{}' not found. Available: performance, balanced, powersave, silent",
+                name
+            ),
         }
     }
 }
