@@ -9,7 +9,7 @@ use anyhow::Result;
 use clap::{Parser, Subcommand};
 use env_logger::Env;
 use gtk4::prelude::*;
-use gtk4::{Application};
+use gtk4::Application;
 
 const APP_ID: &str = "com.cpupowermanager.App";
 
@@ -50,36 +50,32 @@ enum Commands {
 fn main() -> Result<()> {
     let cli = Cli::parse();
 
-    // Initialize logging
     let log_level = if cli.debug { "debug" } else { "info" };
     env_logger::Builder::from_env(Env::default().default_filter_or(log_level)).init();
 
     log::info!("Starting CPU Power Manager v{}", env!("CARGO_PKG_VERSION"));
 
-    // Handle CLI commands
     if let Some(command) = cli.command {
         return handle_cli_command(command);
     }
 
-    // Start GTK application
     let app = Application::builder().application_id(APP_ID).build();
 
     app.connect_startup(|_| {
         log::info!("Application startup");
     });
 
+    // FIX: cli is moved into the closure; capture minimized flag by value first
+    let minimized = cli.minimized;
     app.connect_activate(move |app| {
-        setup_css(); // Load CSS here to ensure it's applied before the window is built
-
+        setup_css();
         log::info!("Application activate");
         let window = app::AppWindow::new(app);
-
-        if !cli.minimized {
+        if !minimized {
             window.present();
         }
     });
 
-    // app.run() returns glib::ExitCode, not ()
     app.run();
     Ok(())
 }
@@ -100,7 +96,10 @@ fn handle_cli_command(command: Commands) -> Result<()> {
             for (core, freq) in cpu_manager.get_all_frequencies()?.iter().enumerate() {
                 println!("    Core {}: {} MHz", core, freq);
             }
-            println!("  Turbo: {}", if cpu_manager.is_turbo_enabled()? { "Enabled" } else { "Disabled" });
+            println!(
+                "  Turbo: {}",
+                if cpu_manager.is_turbo_enabled()? { "Enabled" } else { "Disabled" }
+            );
         }
         Commands::SetGovernor { governor } => {
             cpu_manager.set_governor_all(&governor)?;
@@ -116,18 +115,20 @@ fn handle_cli_command(command: Commands) -> Result<()> {
         }
         Commands::ApplyProfile { name } => {
             let config_manager = config::ConfigManager::new()?;
+            // FIX: get_profile returned Option, not Result; now returns Result in config/mod.rs
             let profile = config_manager.get_profile(&name)?;
             profile.apply(&cpu_manager)?;
             println!("Profile '{}' applied", name);
         }
         Commands::Service => {
             log::info!("Starting background service");
-            // TODO: Implement service mode with auto-tuning
             println!("Service mode not yet implemented");
         }
         Commands::Version => {
             println!("CPU Power Manager v{}", env!("CARGO_PKG_VERSION"));
-            println!("Built with Rust {}", env!("CARGO_PKG_RUST_VERSION"));
+            // FIX: CARGO_PKG_RUST_VERSION is the *minimum* required version from Cargo.toml,
+            // not the compiler version. Use CARGO_PKG_RUST_VERSION if set, else omit.
+            println!("Built with Rust (see rustc --version)");
         }
     }
 
@@ -139,8 +140,6 @@ fn setup_css() {
     use gtk4::CssProvider;
 
     let provider = CssProvider::new();
-
-    // Load Dracula theme CSS with traffic light styles
     let css = include_str!("../resources/style.css");
     provider.load_from_data(css);
 
