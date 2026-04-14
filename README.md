@@ -86,8 +86,8 @@
 
 ```bash
 # Download the latest release
-wget https://github.com/globalcve/cpu-power-manager/releases/download/1.0.0-1/cpu-power-manager_1.0.0-1_amd64.deb
-sudo dpkg -i cpu-power-manager_1.0.0-1_amd64.deb
+wget https://github.com/globalcve/cpu-power-manager/releases/download/1.0.0-1/cpu-power-manager_1.0.0-2_amd64.deb
+sudo dpkg -i cpu-power-manager_1.0.0-2_amd64.deb
 sudo apt-get install -f
 
 ```
