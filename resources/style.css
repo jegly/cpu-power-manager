@@ -1,0 +1,343 @@
+/* Dracula Theme — GTK4 Compatible */
+/* GTK4 does not support CSS custom properties (var(--x)) — use @define-color */
+
+/* Dracula palette */
+@define-color bg_primary     #282a36;
+@define-color bg_secondary   #1e1f29;
+@define-color bg_tertiary    #343746;
+@define-color bg_elevated    #44475a;
+@define-color text_primary   #f8f8f2;
+@define-color text_secondary #6272a4;
+@define-color text_tertiary  #44475a;
+@define-color accent         #bd93f9;
+@define-color accent_hover   #caa9fa;
+@define-color green          #50fa7b;
+@define-color yellow         #f1fa8c;
+@define-color orange         #ffb86c;
+@define-color red            #ff5555;
+@define-color pink           #ff79c6;
+@define-color cyan           #8be9fd;
+@define-color border_color   #44475a;
+@define-color border_light   #6272a4;
+
+window {
+  background-color: @bg_primary;
+}
+
+headerbar {
+  background-color: @bg_secondary;
+  border-bottom: 1px solid @border_color;
+  min-height: 46px;
+  padding: 6px 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+headerbar .header-title {
+  color: @text_primary;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 2px 0 0 0;
+}
+
+headerbar .header-subtitle {
+  color: @text_secondary;
+  font-size: 11px;
+  padding: 0;
+}
+
+/* Traffic-light dots are drawn with Cairo (DrawingArea) — no CSS needed */
+
+.card, frame {
+  background-color: @bg_secondary;
+  border: 1px solid @border_color;
+  border-radius: 14px;
+  padding: 20px;
+  margin: 8px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+frame > border {
+  border: none;
+}
+
+frame > label {
+  color: @accent;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 0 8px;
+}
+
+.title {
+  color: @text_primary;
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  color: @text_secondary;
+  font-size: 12px;
+}
+
+label {
+  color: @text_primary;
+  font-size: 13px;
+}
+
+button {
+  background-color: @bg_tertiary;
+  color: @text_primary;
+  border: 1px solid @border_color;
+  border-radius: 10px;
+  padding: 8px 18px;
+  min-height: 36px;
+  font-weight: 500;
+  font-size: 13px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+button:hover {
+  background-color: @bg_elevated;
+  border-color: @border_light;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+button:active {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+button.suggested-action {
+  background-color: @accent;
+  color: @bg_primary;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(189, 147, 249, 0.35);
+}
+
+button.suggested-action:hover {
+  background-color: @accent_hover;
+  box-shadow: 0 4px 12px rgba(189, 147, 249, 0.5);
+}
+
+button.profile-active {
+  background-color: @accent;
+  color: @bg_primary;
+  border: none;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(189, 147, 249, 0.4);
+}
+
+button.destructive-action {
+  background-color: rgba(255, 85, 85, 0.15);
+  color: @red;
+  border: 1px solid rgba(255, 85, 85, 0.35);
+  font-weight: 600;
+}
+
+button.destructive-action:hover {
+  background-color: rgba(255, 85, 85, 0.25);
+}
+
+switch {
+  background-color: @bg_tertiary;
+  border: 1px solid @border_color;
+  border-radius: 12px;
+  min-height: 22px;
+  min-width: 40px;
+}
+
+switch:checked {
+  background-color: @accent;
+  border-color: @accent;
+  box-shadow: 0 2px 8px rgba(189, 147, 249, 0.3);
+}
+
+switch slider {
+  background-color: @text_primary;
+  border-radius: 50%;
+  min-height: 16px;
+  min-width: 16px;
+  margin: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+dropdown {
+  background-color: @bg_tertiary;
+  border: 1px solid @border_color;
+  border-radius: 10px;
+  color: @text_primary;
+  min-height: 36px;
+}
+
+dropdown:hover {
+  border-color: @border_light;
+  background-color: @bg_elevated;
+}
+
+popover {
+  background-color: @bg_elevated;
+  border: 1px solid @border_light;
+  border-radius: 10px;
+  padding: 4px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+.value {
+  color: @accent;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.freq-value {
+  color: @cyan;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.5px;
+}
+
+.usage-value {
+  color: @green;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.5px;
+}
+
+.temp-normal {
+  color: @green;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.temp-warm {
+  color: @yellow;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.temp-hot {
+  color: @orange;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.temp-critical {
+  color: @red;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.status-ok {
+  color: @green;
+  font-weight: 600;
+}
+
+.status-warning {
+  color: @yellow;
+  font-weight: 600;
+}
+
+.freq-display {
+  background-color: @bg_tertiary;
+  border: 1px solid @border_color;
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin: 3px 0;
+}
+
+.freq-display:hover {
+  border-color: @border_light;
+  background-color: @bg_elevated;
+}
+
+.settings-row {
+  background-color: @bg_tertiary;
+  border: 1px solid @border_color;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 2px 0;
+}
+
+scrollbar {
+  background: transparent;
+}
+
+scrollbar slider {
+  background: rgba(98, 114, 164, 0.5);
+  border-radius: 10px;
+  min-width: 6px;
+  min-height: 6px;
+  border: none;
+}
+
+scrollbar slider:hover {
+  background: rgba(98, 114, 164, 0.8);
+}
+
+button:focus {
+  outline: 2px solid rgba(189, 147, 249, 0.6);
+  outline-offset: 1px;
+}
+
+.traffic-btn:focus {
+  outline: none;
+}
+
+.turbo-switch {
+  background-color: @bg_tertiary;
+  border: 1px solid @border_color;
+  border-radius: 11px;
+  min-height: 20px;
+  min-width: 38px;
+}
+
+.turbo-switch:checked {
+  background-color: @green;
+  border-color: @green;
+  box-shadow: 0 0 0 2px rgba(80, 250, 123, 0.2),
+              0 2px 4px rgba(80, 250, 123, 0.4);
+}
+
+.turbo-switch slider {
+  background-color: @text_primary;
+  border-radius: 50%;
+  min-height: 14px;
+  min-width: 14px;
+  margin: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.turbo-switch:checked slider {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.turbo-status {
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.turbo-on {
+  color: @green;
+  background-color: rgba(80, 250, 123, 0.12);
+  border: 1px solid rgba(80, 250, 123, 0.3);
+}
+
+.turbo-off {
+  color: @red;
+  background-color: rgba(255, 85, 85, 0.12);
+  border: 1px solid rgba(255, 85, 85, 0.3);
+}
+
+drawingarea {
+  background-color: @bg_secondary;
+  border: 1px solid @border_color;
+  border-radius: 12px;
+}
+
+separator {
+  background-color: @border_color;
+  min-height: 1px;
+  margin: 8px 0;
+}

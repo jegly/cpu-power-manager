@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=CPU Power Manager
+GenericName=CPU Frequency Control
+Comment=Advanced CPU frequency and power management
+Icon=cpu-power-manager
+Exec=cpu-power-manager
+Terminal=false
+Categories=System;Settings;HardwareSettings;
+Keywords=cpu;frequency;power;performance;governor;turbo;
+StartupNotify=true

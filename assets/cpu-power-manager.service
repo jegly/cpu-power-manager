@@ -1,0 +1,19 @@
+[Unit]
+Description=CPU Power Manager Background Service
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/cpu-power-manager service
+Restart=on-failure
+RestartSec=5s
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/sys/devices/system/cpu
+
+[Install]
+WantedBy=multi-user.target

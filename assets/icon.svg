@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cpuGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#bd93f9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8be9fd;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="#282a36" stroke="url(#cpuGradient)" stroke-width="4"/>
+  
+  <!-- CPU chip shape -->
+  <rect x="40" y="40" width="48" height="48" rx="4" fill="url(#cpuGradient)"/>
+  
+  <!-- CPU pins -->
+  <g fill="#f8f8f2">
+    <!-- Top pins -->
+    <rect x="48" y="32" width="4" height="8"/>
+    <rect x="60" y="32" width="4" height="8"/>
+    <rect x="72" y="32" width="4" height="8"/>
+    
+    <!-- Bottom pins -->
+    <rect x="48" y="88" width="4" height="8"/>
+    <rect x="60" y="88" width="4" height="8"/>
+    <rect x="72" y="88" width="4" height="8"/>
+    
+    <!-- Left pins -->
+    <rect x="32" y="48" width="8" height="4"/>
+    <rect x="32" y="60" width="8" height="4"/>
+    <rect x="32" y="72" width="8" height="4"/>
+    
+    <!-- Right pins -->
+    <rect x="88" y="48" width="8" height="4"/>
+    <rect x="88" y="60" width="8" height="4"/>
+    <rect x="88" y="72" width="8" height="4"/>
+  </g>
+  
+  <!-- CPU grid -->
+  <g stroke="#282a36" stroke-width="2" opacity="0.5">
+    <line x1="52" y1="40" x2="52" y2="88"/>
+    <line x1="64" y1="40" x2="64" y2="88"/>
+    <line x1="76" y1="40" x2="76" y2="88"/>
+    <line x1="40" y1="52" x2="88" y2="52"/>
+    <line x1="40" y1="64" x2="88" y2="64"/>
+    <line x1="40" y1="76" x2="88" y2="76"/>
+  </g>
+  
+  <!-- Lightning bolt -->
+  <polygon points="67,44 57,66 63,66 61,84 73,62 67,62" fill="#f1fa8c" opacity="0.95"/>
+</svg>

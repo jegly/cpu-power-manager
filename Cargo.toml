@@ -1,0 +1,70 @@
+[package]
+name = "cpu-power-manager"
+version = "1.0.3"
+edition = "2021"
+authors = ["JEGLY"]
+description = "Advanced CPU power management tool with GTK4 interface and Dracula theme"
+license = "GPL-3.0"
+repository = "https://github.com/jegly/cpu-power-manager"
+readme = "README.md"
+keywords = ["cpu", "power", "frequency", "linux", "gtk4"]
+categories = ["command-line-utilities", "os::linux-apis"]
+
+[dependencies]
+gtk4 = { version = "0.9", features = ["v4_6"] }
+libadwaita = { version = "0.7", features = ["v1_1"] }
+glib = "0.20"
+gio = "0.20"
+sysinfo = "0.31"
+serde = { version = "1.0", features = ["derive"] }
+toml = "0.8"
+anyhow = "1.0"
+thiserror = "1.0"
+log = "0.4"
+env_logger = "0.11"
+tokio = { version = "1", features = ["full", "rt-multi-thread"] }
+zbus = "4.4"
+nix = { version = "0.29", features = ["fs", "process", "signal"] }
+procfs = "0.16"
+notify-rust = "4.11"
+chrono = "0.4"
+clap = { version = "4.5", features = ["derive"] }
+libc = "0.2"
+once_cell = "1.19"
+parking_lot = "0.12"
+regex = "1.10"
+
+[dev-dependencies]
+mockall = "0.13"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+
+[package.metadata.deb]
+maintainer = "JEGLY"
+copyright = "2025, JEGLY"
+license-file = ["LICENSE", "4"]
+extended-description = """\
+A comprehensive CPU power management tool for Linux with intelligent \
+auto-tuning, per-core control, thermal management, and a beautiful \
+GTK4 interface with Dracula theme."""
+depends = "$auto, libgtk-4-1, libadwaita-1-0, policykit-1"
+section = "utils"
+priority = "optional"
+assets = [
+    ["target/release/cpu-power-manager", "usr/bin/", "755"],
+    ["assets/cpu-power-manager.desktop", "usr/share/applications/", "644"],
+    ["assets/com.cpupowermanager.policy", "usr/share/polkit-1/actions/", "644"],
+    ["assets/cpu-power-manager.service", "etc/systemd/system/", "644"],
+    ["assets/icon.svg", "usr/share/icons/hicolor/scalable/apps/cpu-power-manager.svg", "644"],
+    ["README.md", "usr/share/doc/cpu-power-manager/", "644"],
+]
+
+[package.metadata.generate-rpm]
+assets = [
+    { source = "target/release/cpu-power-manager", dest = "/usr/bin/cpu-power-manager", mode = "755" },
+    { source = "assets/cpu-power-manager.desktop", dest = "/usr/share/applications/cpu-power-manager.desktop", mode = "644" },
+]

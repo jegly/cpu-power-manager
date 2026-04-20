@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC
+ "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
+<policyconfig>
+  <vendor>CPU Power Manager</vendor>
+  <vendor_url>https://github.com/jegly/cpu-power-manager</vendor_url>
+
+  <action id="com.cpupowermanager.setcpufreq">
+    <description>Set CPU frequency and governor</description>
+    <message>Authentication is required to change CPU frequency and governor settings</message>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/cpu-power-manager</annotate>
+  </action>
+
+  <action id="com.cpupowermanager.setturbo">
+    <description>Control CPU turbo boost</description>
+    <message>Authentication is required to enable or disable CPU turbo boost</message>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/cpu-power-manager</annotate>
+  </action>
+
+  <action id="com.cpupowermanager.setcore">
+    <description>Online/offline CPU cores</description>
+    <message>Authentication is required to enable or disable CPU cores</message>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/cpu-power-manager</annotate>
+  </action>
+</policyconfig>
