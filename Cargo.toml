@@ -51,7 +51,7 @@ extended-description = """\
 A comprehensive CPU power management tool for Linux with intelligent \
 auto-tuning, per-core control, thermal management, and a beautiful \
 GTK4 interface with Dracula theme."""
-depends = "$auto, libgtk-4-1, libadwaita-1-0, polkitd"
+depends = "$auto, libgtk-4-1, libadwaita-1-0, policykit-1 | polkitd"
 section = "utils"
 priority = "optional"
 assets = [
