@@ -47,11 +47,12 @@ strip = true
 maintainer = "Maintainer <jjjegly@gmail.com>"
 copyright = "2025, JEGLY"
 license-file = ["LICENSE"]
+changelog = "debian/changelog"
 extended-description = """\
 A comprehensive CPU power management tool for Linux with intelligent \
 auto-tuning, per-core control, thermal management, and a beautiful \
 GTK4 interface with Dracula theme."""
-depends = "$auto, libgtk-4-1, libadwaita-1-0, policykit-1 | polkitd, pkexec"
+depends = "$auto, libgtk-4-1, libadwaita-1-0, polkitd | policykit-1, pkexec"
 section = "utils"
 priority = "optional"
 assets = [
