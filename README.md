@@ -106,7 +106,12 @@ sudo apt-get install -f
 
 ### From Source
 
-**Debian/Ubuntu dependencies:**
+**Debian/Ubuntu dependencies (Trixie 13/Plucky Puffin 25.04):**
+```bash
+sudo apt install build-essential cargo rustc libgtk-4-dev \
+    libadwaita-1-dev libglib2.0-dev pkg-config polkitd
+```
+**Debian/Ubuntu dependencies (Bookworm 12/Noble Numbat 24.04 LTS):**
 ```bash
 sudo apt install build-essential cargo rustc libgtk-4-dev \
     libadwaita-1-dev libglib2.0-dev pkg-config policykit-1

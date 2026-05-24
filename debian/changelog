@@ -1,0 +1,83 @@
+cpu-power-manager (1.0.3-1) unstable; urgency=medium
+
+  * Fixed #4 - [Debian 13] policykit-1 is deprecated since 12 - replace with polkitd
+  * Fixed #6 - [Debian] .deb packaging fails multiple Lintian conditions
+
+ -- SSUPII <42090377+SSUPII@users.noreply.github.com>  Sun, 26 Apr 2026 12:28:53 +0000
+
+cpu-power-manager (1.0.3) unstable; urgency=medium
+
+  * Dashboard & Monitoring:
+    - System Overview redesign — 4-column homogeneous grid ensures metric cards never overlap;
+      text no longer spills into adjacent cells
+    - Intel RAPL power draw — live watts reading via two-sample energy delta from
+      /sys/class/powercap/intel-rapl
+    - Battery status card — charge %, AC/battery detection, live power draw, and charge status
+      string
+    - Fan speed — live RPM from hwmon drivers displayed alongside CPU info
+    - Per-core temperatures — reads coretemp hwmon labels (Core 0, Core 1 …) and displays next
+      to each core row
+    - Per-core CPU usage bars — LevelBar widget per core updated every second
+    - P-core / E-core labels — Intel 12th gen+ hybrid CPUs now correctly label [P] and [E] cores
+
+  * Control:
+    - Frequency sliders — min/max Scale widgets in the Control tab with a single Apply button
+    - AC / Battery auto-profile switching — detects power source change every second and applies
+      the configured profile automatically
+
+  * Settings:
+    - Display Size — Small / Normal / Large / X-Large dropdown; scales the entire UI instantly,
+      persisted across restarts
+    - Launch at Login — writes/removes ~/.config/autostart/cpu-power-manager.desktop
+    - Minimize to Tray on Close — hides window instead of quitting
+    - Auto-Apply Profile on Startup — restores last used profile on launch
+    - Critical Temperature Notification — desktop notification toggle with configurable °C
+      threshold
+    - Custom profile creation — name, governor, and turbo setting saved to config; persists
+      across restarts
+
+  * System Tray:
+    - StatusNotifierItem tray icon via pure-Rust zbus — no libdbus-1-dev C headers required
+    - Show/Hide Window and Quit menu entries
+    - Fails gracefully when no DBus session bus is present
+
+  * UI & Design:
+    - Full Dracula colour palette — all backgrounds, text, accents, status colours, graph,
+      scrollbars, and buttons now use canonical Dracula colours (#282a36, #bd93f9, #50fa7b,
+      #f1fa8c, #ff5555, #8be9fd, etc.)
+    - macOS-style circular traffic-light buttons — replaced GTK Button widgets (which cannot be
+      forced circular via CSS) with Cairo-drawn DrawingArea dots; red/yellow/green 13 px circles
+      with hover dimming
+    - CPU usage graph recoloured to Dracula purple (#bd93f9) fill and line
+    - App icon — lightning bolt SVG registered in the icon theme at runtime; no system
+      installation required for the icon to appear
+    - About dialog — logo loads from embedded SVG bytes (always visible); website updated to
+      www.jegly.xyz
+
+  * Bug Fixes:
+    - "Expected a valid color" CSS parse error — removed unsupported box-shadow: inset from
+      drawingarea block
+    - "Failed to read available governors" — governor lookup now falls back to cpu0, then to a
+      hardcoded Intel pstate list, instead of bailing on first failure
+    - "Failed to reset min frequency for core N" — E-core frequency writes are now soft errors
+      (debug log only); profile apply no longer aborts on hybrid CPUs
+    - Per-core panel empty — get_core_status() uses unwrap_or for all sysfs reads;
+      get_all_core_status() uses filter_map so one failing core doesn't block the rest
+    - Fan Speed / CPU Info overlap — fan speed card (grid index 7) was being placed at the same
+      cell as the CPU info card; fixed by folding fan speed into the CPU info card
+
+  * Configuration:
+    New fields in ~/.config/cpu-power-manager/config.toml:
+      minimize_to_tray = false
+      auto_apply_on_startup = false
+      last_profile = ""
+      critical_temp_notify = true
+      ui_scale = "normal" # small | normal | large | xlarge
+    Existing configs are forward-compatible — all new fields have defaults and are optional.
+
+  * Known Limitations:
+    - E-core frequencies display as 0 MHz on Intel 12th gen+ — expected behaviour; E-cores share
+      a policy group and don't expose individual scaling_cur_freq files
+    - System tray requires sudo -E (not plain sudo) to preserve DBUS_SESSION_BUS_ADDRESS
+
+ -- Jesse Li-Yates <jjjegly@gmail.com>  Mon, 20 Apr 2026 14:52:04 +1000

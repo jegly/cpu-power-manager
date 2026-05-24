@@ -4,7 +4,7 @@ version = "1.0.3"
 edition = "2021"
 authors = ["JEGLY"]
 description = "Advanced CPU power management tool with GTK4 interface and Dracula theme"
-license = "GPL-3.0"
+license = "MIT"
 repository = "https://github.com/jegly/cpu-power-manager"
 readme = "README.md"
 keywords = ["cpu", "power", "frequency", "linux", "gtk4"]
@@ -44,21 +44,22 @@ codegen-units = 1
 strip = true
 
 [package.metadata.deb]
-maintainer = "JEGLY"
+maintainer = "Maintainer <jjjegly@gmail.com>"
 copyright = "2025, JEGLY"
-license-file = ["LICENSE", "4"]
+license-file = ["LICENSE"]
+changelog = "debian/changelog"
 extended-description = """\
 A comprehensive CPU power management tool for Linux with intelligent \
 auto-tuning, per-core control, thermal management, and a beautiful \
 GTK4 interface with Dracula theme."""
-depends = "$auto, libgtk-4-1, libadwaita-1-0, policykit-1"
+depends = "$auto, libgtk-4-1, libadwaita-1-0, polkitd | policykit-1, pkexec"
 section = "utils"
 priority = "optional"
 assets = [
     ["target/release/cpu-power-manager", "usr/bin/", "755"],
     ["assets/cpu-power-manager.desktop", "usr/share/applications/", "644"],
     ["assets/com.cpupowermanager.policy", "usr/share/polkit-1/actions/", "644"],
-    ["assets/cpu-power-manager.service", "etc/systemd/system/", "644"],
+    ["assets/cpu-power-manager.service", "usr/lib/systemd/system/", "644"],
     ["assets/icon.svg", "usr/share/icons/hicolor/scalable/apps/cpu-power-manager.svg", "644"],
     ["README.md", "usr/share/doc/cpu-power-manager/", "644"],
 ]
