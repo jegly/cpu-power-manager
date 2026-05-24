@@ -1,4 +1,6 @@
-# CPU Power Manager
+<p align="center">
+  <img src="cpu_power_manager.png" alt="CPU Power Manager Banner" />
+</p>
 
 > A modern Linux GUI utility for monitoring and controlling CPU performance, power usage, and thermal behaviour. Built with a Rust backend and a sleek GTK4 interface styled with the full Dracula colour palette, it provides real-time insights into frequency scaling, governors, turbo boost, per-core temperatures, battery status, fan speed, and Intel RAPL power draw — all in one place.
 
