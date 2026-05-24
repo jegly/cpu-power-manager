@@ -4,11 +4,11 @@
 
 > A modern Linux GUI utility for monitoring and controlling CPU performance, power usage, and thermal behaviour. Built with a Rust backend and a sleek GTK4 interface styled with the full Dracula colour palette, it provides real-time insights into frequency scaling, governors, turbo boost, per-core temperatures, battery status, fan speed, and Intel RAPL power draw — all in one place.
 
-[![License: GPL v3](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.3-purple.svg)]()
-[![Platform: Linux](https://img.shields.io/badge/platform-Linux-lightgrey.svg)]()
-[![Rust](https://img.shields.io/badge/language-Rust-orange.svg)]()
-[![GTK4](https://img.shields.io/badge/UI-GTK4-green.svg)]()
+[![License: GPL v3](https://img.shields.io/badge/license-GPL--3.0-b7bdf8.svg?labelColor=363a4f&color=b7bdf8&logoColor=cad3f5)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.0.3-c6a0f6.svg?labelColor=363a4f&color=c6a0f6&logoColor=cad3f5)]()
+[![Platform: Linux](https://img.shields.io/badge/platform-Linux-8bd5ca.svg?labelColor=363a4f&color=8bd5ca&logoColor=cad3f5)]()
+[![Rust](https://img.shields.io/badge/language-Rust-f5a97f.svg?labelColor=363a4f&color=f5a97f&logoColor=cad3f5)]()
+[![GTK4](https://img.shields.io/badge/UI-GTK4-a6da95.svg?labelColor=363a4f&color=a6da95&logoColor=cad3f5)]()
 
 **Website:** [www.jegly.xyz](https://www.jegly.xyz)
 
@@ -17,15 +17,15 @@
 ## Screenshots
 
 <p align="center">
-  <img src="screenshot1.png" width="700" alt="Monitor Dashboard" />
-  <br/><br/>
-  <img src="screenshot2.png" width="700" alt="Per-Core Status" />
-  <br/><br/>
-  <img src="screenshot3.png" width="700" alt="Control Tab" />
-  <br/><br/>
-  <img src="screenshot4.png" width="700" alt="Settings" />
-  <br/><br/>
-  <img src="screenshot5.png" width="700" alt="About Dialog" />
+<img src="screenshot1.png" width="1000" alt="Monitor Dashboard" />
+<br/><br/>
+<img src="screenshot2.png" width="1000" alt="Per-Core Status" />
+<br/><br/>
+<img src="screenshot3.png" width="1000" alt="Control Tab" />
+<br/><br/>
+<img src="screenshot4.png" width="1000" alt="Settings" />
+<br/><br/>
+<img src="screenshot5.png" width="1000" alt="About Dialog" />
 </p>
 
 ---
