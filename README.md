@@ -17,15 +17,15 @@
 ## Screenshots
 
 <p align="center">
-<img src="screenshot1.png" width="1000" alt="Monitor Dashboard" />
+<img src="screenshot1.png" alt="Monitor Dashboard" />
 <br/><br/>
-<img src="screenshot2.png" width="1000" alt="Per-Core Status" />
+<img src="screenshot2.png" alt="Per-Core Status" />
 <br/><br/>
-<img src="screenshot3.png" width="1000" alt="Control Tab" />
+<img src="screenshot3.png" alt="Control Tab" />
 <br/><br/>
-<img src="screenshot4.png" width="1000" alt="Settings" />
+<img src="screenshot4.png" alt="Settings" />
 <br/><br/>
-<img src="screenshot5.png" width="1000" alt="About Dialog" />
+<img src="screenshot5.png" alt="About Dialog" />
 </p>
 
 ---
