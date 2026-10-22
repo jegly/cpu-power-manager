@@ -23,7 +23,7 @@ thiserror = "1.0"
 log = "0.4"
 env_logger = "0.11"
 tokio = { version = "1", features = ["full", "rt-multi-thread"] }
-zbus = "4.4"
+zbus = "5.12"
 nix = { version = "0.30", features = ["fs", "process", "signal"] }
 procfs = "0.16"
 notify-rust = "4.11"
