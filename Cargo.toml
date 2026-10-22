@@ -35,7 +35,7 @@ parking_lot = "0.12"
 regex = "1.10"
 
 [dev-dependencies]
-mockall = "0.13"
+mockall = "0.15"
 
 [profile.release]
 opt-level = 3
