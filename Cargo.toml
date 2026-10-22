@@ -14,7 +14,7 @@ categories = ["command-line-utilities", "os::linux-apis"]
 gtk4 = { version = "0.9", features = ["v4_6"] }
 libadwaita = { version = "0.7", features = ["v1_1"] }
 glib = "0.21"
-gio = "0.20"
+gio = "0.21"
 sysinfo = "0.31"
 serde = { version = "1.0", features = ["derive"] }
 toml = "0.8"

@@ -452,7 +452,7 @@ dependencies = [
  "chrono",
  "clap",
  "env_logger",
- "gio",
+ "gio 0.21.5",
  "glib 0.21.5",
  "gtk4",
  "libadwaita",
@@ -815,7 +815,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2fd242894c084f4beed508a56952750bce3e96e85eb68fdc153637daa163e10c"
 dependencies = [
  "gdk-pixbuf-sys",
- "gio",
+ "gio 0.20.12",
  "glib 0.20.12",
  "libc",
 ]
@@ -842,7 +842,7 @@ dependencies = [
  "cairo-rs",
  "gdk-pixbuf",
  "gdk4-sys",
- "gio",
+ "gio 0.20.12",
  "glib 0.20.12",
  "libc",
  "pango",
@@ -910,6 +910,23 @@ dependencies = [
  "futures-util",
  "gio-sys 0.20.10",
  "glib 0.20.12",
+ "libc",
+ "pin-project-lite",
+ "smallvec",
+]
+
+[[package]]
+name = "gio"
+version = "0.21.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c5ff48bf600c68b476e61dc6b7c762f2f4eb91deef66583ba8bb815c30b5811a"
+dependencies = [
+ "futures-channel",
+ "futures-core",
+ "futures-io",
+ "futures-util",
+ "gio-sys 0.21.5",
+ "glib 0.21.5",
  "libc",
  "pin-project-lite",
  "smallvec",
@@ -1116,7 +1133,7 @@ dependencies = [
  "futures-channel",
  "gdk-pixbuf",
  "gdk4",
- "gio",
+ "gio 0.20.12",
  "glib 0.20.12",
  "graphene-rs",
  "gsk4",
@@ -1281,7 +1298,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "500135d29c16aabf67baafd3e7741d48e8b8978ca98bac39e589165c8dc78191"
 dependencies = [
  "gdk4",
- "gio",
+ "gio 0.20.12",
  "glib 0.20.12",
  "gtk4",
  "libadwaita-sys",
@@ -1545,7 +1562,7 @@ version = "0.20.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6576b311f6df659397043a5fa8a021da8f72e34af180b44f7d57348de691ab5c"
 dependencies = [
- "gio",
+ "gio 0.20.12",
  "glib 0.20.12",
  "libc",
  "pango-sys",
