@@ -17,7 +17,7 @@ glib = "0.21"
 gio = "0.21"
 sysinfo = "0.39"
 serde = { version = "1.0", features = ["derive"] }
-toml = "0.8"
+toml = "0.9"
 anyhow = "1.0"
 thiserror = "1.0"
 log = "0.4"
