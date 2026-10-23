@@ -25,7 +25,7 @@ env_logger = "0.11"
 tokio = { version = "1", features = ["full", "rt-multi-thread"] }
 zbus = "5.12"
 nix = { version = "0.30", features = ["fs", "process", "signal"] }
-procfs = "0.16"
+procfs = "0.18"
 notify-rust = "4.11"
 chrono = "0.4"
 clap = { version = "4.5", features = ["derive"] }
